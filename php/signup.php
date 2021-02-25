@@ -5,6 +5,7 @@
     $fname = escape_string($post['fname']);
     $lname = escape_string($post['lname']);
     $email = escape_string($post['email']);
+    $hash = md5( rand(0,1000) );
     $password = escape_string($post['password']);
     if(!empty($fname) && !empty($lname) && !empty($email) && !empty($password)){
         if(filter_var($email, FILTER_VALIDATE_EMAIL)){
@@ -31,8 +32,8 @@
                                 $ran_id = rand(time(), 100000000);
                                 $status = "Active now";
                                 $encrypt_pass = md5($password);
-                                $insert_query = "INSERT INTO users (unique_id, fname, lname, email, password, img, status)
-                                VALUES ({$ran_id}, '{$fname}','{$lname}', '{$email}', '{$encrypt_pass}', '{$new_img_name}', '{$status}')";
+                                $insert_query = "INSERT INTO users (unique_id, fname, lname, email, password, img, status,id-hash)
+                                VALUES ({$ran_id}, '{$fname}','{$lname}', '{$email}', '{$encrypt_pass}', '{$new_img_name}', '{$status}', '{$hash}')";
                                 $res_insert_query = db_query_execute($insert_query);
                                
                                 if($res_insert_query){

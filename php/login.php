@@ -11,14 +11,25 @@ if (!empty($email) && !empty($password)) {
         $row = fetch_assoc($res);
         $user_pass = md5($password);
         $enc_pass = $row['password'];
-        if ($user_pass === $enc_pass) {
+        $verifyStatus = $row['verify'];
 
+        
+
+        if ($user_pass === $enc_pass) {
             $status = "Active now";
             $sql2 = "UPDATE users SET status = '{$status}' WHERE unique_id = {$row['unique_id']}";
             $res2 = db_query_execute($sql2);
             if ($res2) {
-                $_SESSION['unique_id'] = $row['unique_id'];
-                echo "success";
+
+                if(empty($verifyStatus)){
+
+                    echo "verify";
+                   
+                } else{
+                    $_SESSION['unique_id'] = $row['unique_id'];
+                    echo "success";
+                }
+                
             } else {
                 echo "Something went wrong. Please try again!";
             }
